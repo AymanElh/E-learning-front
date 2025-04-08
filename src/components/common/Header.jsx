@@ -7,7 +7,7 @@ function Header() {
         <header className="header">
             <div className="container header-container">
                 <div className="logo">
-                    <h1>Course Platform</h1>
+                    <h1 className="font-bold">Course Platform</h1>
                 </div>
                 <nav className="nav">
                     <ul>

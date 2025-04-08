@@ -1,18 +1,6 @@
+@import "tailwindcss";
+
 :root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
-
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-
-
   --color-background: #16161a;
   --color-headline: #fffffe;
   --color-paragraph: #94a1b2;
@@ -36,7 +24,6 @@ body {
   background-color: var(--color-background);
   color: var(--color-paragraph);
   line-height: 1.6;
-  height: 100vh;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -49,5 +36,23 @@ a {
   text-decoration: none;
 }
 
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
 
+.btn {
+  background-color: var(--color-button);
+  color: var(--color-button-text);
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.3s ease;
+}
 
+.btn:hover {
+  background-color: #6b4dd1;
+}
