@@ -4,9 +4,10 @@
 import Header from "./components/common/Header.jsx";
 import {BrowserRouter as Router, Routes, Route} from 'react-router-dom';
 import Home from './pages/Home';
-import Courses from './pages/Courses';
+import Courses from './pages/Courses.jsx';
 import Categories from './pages/Categories';
 import Footer from "./components/common/Footer.jsx";
+import CourseDetails from "./pages/CourseDetails.jsx";
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
                       <Routes>
                           <Route path="/" element={<Courses />} />
                           <Route path="/courses" element={<Courses />} />
+                          <Route path="/courses/:id" element={<CourseDetails/>} />
                           <Route path="/categories" element={<Categories />} />
                       </Routes>
                   </main>

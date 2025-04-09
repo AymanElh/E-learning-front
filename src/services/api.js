@@ -24,4 +24,25 @@ export const CategoryService = {
     }
 }
 
+export const CourseService = {
+    getAllCourses: async function() {
+        try {
+            const response = await api.get('/courses');
+            return response.data;
+        } catch (error) {
+            console.error('Error fetching courses', error);
+            throw error;
+        }
+    },
+    getCourseById: async function(id) {
+        try {
+            const response = await api.get(`/courses/${id}`);
+            return response.data;
+        } catch(error) {
+            console.error(`Error fetching course with id ${id}`);
+            throw error;
+        }
+    }
+}
+
 export default api;
