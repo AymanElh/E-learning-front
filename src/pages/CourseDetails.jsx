@@ -3,6 +3,7 @@ import {useEffect, useState} from "react";
 import {CourseService} from "../services/api.js";
 import ErrorMessage from "../components/common/ErrorMessage.jsx";
 import Loader from "../components/common/Loader.jsx";
+import ConfirmationModal from "../components/common/ConfirmationModal.jsx";
 import "./CourseDetails.css";
 
 function CourseDetails() {
@@ -12,6 +13,10 @@ function CourseDetails() {
     const [course, setCourse] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+
+    // State for delete confirmation modal
+    const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+    const [isDeleting, setIsDeleting] = useState(false);
 
     useEffect(function() {
         async function fetchCourse() {
@@ -29,7 +34,28 @@ function CourseDetails() {
             }
         }
         fetchCourse();
-    }, [id])
+    }, [id]);
+
+    // Handle course deletion
+    const handleDeleteCourse = async () => {
+        setIsDeleting(true);
+        try {
+            const response = await CourseService.deleteCourse(id);
+
+            if (response.success) {
+                // Navigate back to courses page after successful deletion
+                navigate('/courses', { replace: true });
+            } else {
+                throw new Error(response.message || 'Failed to delete course');
+            }
+        } catch (err) {
+            setError(err.message || 'An error occurred while deleting the course. Please try again.');
+            setIsDeleteModalOpen(false);
+            console.error(err);
+        } finally {
+            setIsDeleting(false);
+        }
+    };
 
     // Display loading state
     if (loading) {
@@ -67,6 +93,9 @@ function CourseDetails() {
                             <span className={`difficulty-badge difficulty-${course.difficulty?.toLowerCase()}`}>
                                 {course.difficulty || 'All Levels'}
                             </span>
+                            <span className={`status-badge status-${course.status?.toLowerCase()}`}>
+                                {course.status || 'Draft'}
+                            </span>
                         </div>
 
                         {/* Course Title */}
@@ -92,16 +121,6 @@ function CourseDetails() {
                                 </svg>
                                 <span>{course.lessons_count || 0} lessons</span>
                             </div>
-
-                            {course.status && (
-                                <div className="meta-item">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                        <circle cx="12" cy="12" r="10"></circle>
-                                        <polyline points="12 6 12 12 16 14"></polyline>
-                                    </svg>
-                                    <span>Status: {course.status}</span>
-                                </div>
-                            )}
                         </div>
                     </div>
 
@@ -115,6 +134,20 @@ function CourseDetails() {
                             )}
                         </div>
                         <button className="btn enroll-btn">Enroll Now</button>
+
+                        {/* Course Admin Actions */}
+                        <div className="course-actions">
+                            <Link to={`/courses/${course.id}/edit`} className="btn edit-btn">
+                                Edit Course
+                            </Link>
+                            <button
+                                className="btn delete-btn"
+                                onClick={() => setIsDeleteModalOpen(true)}
+                            >
+                                Delete Course
+                            </button>
+                        </div>
+
                         <button
                             className="btn back-btn"
                             onClick={() => navigate('/courses')}
@@ -145,9 +178,33 @@ function CourseDetails() {
                             </div>
                         )}
                     </div>
-                    
+
+                    {/* Category Section */}
+                    {course.category && (
+                        <div className="course-section category-section">
+                            <h2>Category</h2>
+                            <div className="category-card">
+                                <h3>{course.category.name}</h3>
+                                {course.category.description && (
+                                    <p>{course.category.description}</p>
+                                )}
+                            </div>
+                        </div>
+                    )}
                 </div>
             </div>
+
+            {/* Delete Confirmation Modal */}
+            <ConfirmationModal
+                isOpen={isDeleteModalOpen}
+                onClose={() => setIsDeleteModalOpen(false)}
+                onConfirm={handleDeleteCourse}
+                title="Delete Course"
+                message={`Are you sure you want to delete "${course.title}"? This action cannot be undone.`}
+                confirmText="Delete"
+                cancelText="Cancel"
+                isLoading={isDeleting}
+            />
         </div>
     );
 }

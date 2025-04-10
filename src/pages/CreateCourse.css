@@ -1,0 +1,41 @@
+.create-course-page {
+    min-height: 80vh;
+    padding: 2rem 0;
+}
+
+.page-header {
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+.page-header h1 {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+}
+
+.page-header p {
+    color: var(--color-secondary);
+}
+
+.form-actions-bottom {
+    display: flex;
+    justify-content: center;
+    margin-top: 1rem;
+}
+
+.cancel-btn {
+    background-color: transparent;
+    border: 1px solid var(--color-secondary);
+    color: var(--color-secondary);
+    padding: 0.75rem 1.5rem;
+}
+
+.cancel-btn:hover {
+    border-color: #ef4444;
+    color: #ef4444;
+}
+
+.cancel-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}

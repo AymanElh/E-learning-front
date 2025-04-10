@@ -8,6 +8,7 @@ import Courses from './pages/Courses.jsx';
 import Categories from './pages/Categories';
 import Footer from "./components/common/Footer.jsx";
 import CourseDetails from "./pages/CourseDetails.jsx";
+import CreateCourse from "./pages/CreateCourse.jsx";
 
 function App() {
   return (
@@ -22,7 +23,8 @@ function App() {
                       <Routes>
                           <Route path="/" element={<Courses />} />
                           <Route path="/courses" element={<Courses />} />
-                          <Route path="/courses/:id" element={<CourseDetails/>} />
+                          <Route path="/courses/create" element={<CreateCourse />} />
+                          <Route path="/courses/:id" element={<CourseDetails />} />
                           <Route path="/categories" element={<Categories />} />
                       </Routes>
                   </main>
