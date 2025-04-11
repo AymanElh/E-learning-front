@@ -9,6 +9,7 @@ import Categories from './pages/Categories';
 import Footer from "./components/common/Footer.jsx";
 import CourseDetails from "./pages/CourseDetails.jsx";
 import CreateCourse from "./pages/CreateCourse.jsx";
+import EditCourse from "./pages/EditCourse.jsx";
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
                           <Route path="/courses" element={<Courses />} />
                           <Route path="/courses/create" element={<CreateCourse />} />
                           <Route path="/courses/:id" element={<CourseDetails />} />
+                          <Route path="/courses/:id/edit" element={<EditCourse />} />
                           <Route path="/categories" element={<Categories />} />
                       </Routes>
                   </main>
