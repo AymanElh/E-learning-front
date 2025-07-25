@@ -1,37 +1,21 @@
 import Header from "./components/common/Header.jsx";
 import {BrowserRouter as Router, Routes, Route} from 'react-router-dom';
-import Home from './pages/Home';
-import Courses from './pages/Courses.jsx';
-import Categories from './pages/Categories';
 import Footer from "./components/common/Footer.jsx";
-import CourseDetails from "./pages/CourseDetails.jsx";
-import CreateCourse from "./pages/CreateCourse.jsx";
-import EditCourse from "./pages/EditCourse.jsx";
+import RegisterPage from "./pages/auth/RegisterPage.jsx";
+
 
 function App() {
-  return (
-      <>
-          <Router>
-              <div className="app">
-                  <Header />
-                  <>
-
-                  </>
-                  <main>
-                      <Routes>
-                          <Route path="/" element={<Courses />} />
-                          <Route path="/courses" element={<Courses />} />
-                          <Route path="/courses/create" element={<CreateCourse />} />
-                          <Route path="/courses/:id" element={<CourseDetails />} />
-                          <Route path="/courses/:id/edit" element={<EditCourse />} />
-                          <Route path="/categories" element={<Categories />} />
-                      </Routes>
-                  </main>
-                  <Footer />
-              </div>
-          </Router>
-      </>
-  )
+    return (
+        <>
+            <Router>
+                <div className="app">
+                    <Routes>
+                        <Route path="/register" element={<RegisterPage/>}/>
+                    </Routes>
+                </div>
+            </Router>
+        </>
+    )
 }
 
 export default App
