@@ -24,20 +24,24 @@ export const authService = {
     login: async function (credentials) {
         try {
             const res = await api.post('/login', credentials);
+            console.log(res);
             if (res.status === 200) {
                 const data = res.data;
-                tokenService.setToken(data.token.access_token);
+                console.log("data: ", data);
+                tokenService.setToken(data.data.token.access_token);
                 return {success: true, message: "Login successfull"};
             } else {
                 return {success: false, error: data.message || "Login failed"};
             }
         } catch (err) {
-            return {success: false, error: err};
+            console.log(err);
+            const errMessage = err?.response?.data?.message || "Login failed";
+            return {success: false, error: errMessage};
         }
     },
     logout: async function() {
         try {
-            const token = tokenService.getToken('auth_token');
+            const token = tokenService.getToken();
             const res = await api.post('/logout');
             tokenService.removeToken();
             return {success: true, message: "Logout successfully"}

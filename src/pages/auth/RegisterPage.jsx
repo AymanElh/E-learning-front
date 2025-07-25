@@ -6,7 +6,7 @@ function RegisterPage() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
-    async function handleSubmit(formData) {
+    async function handleRegister(formData) {
         const userData =  {
             name: formData.get('name'),
             email: formData.get('email'),
@@ -14,13 +14,13 @@ function RegisterPage() {
             password_confirmation: formData.get('confirmPassword'),
         };
         const res = await authService.register(userData);
-        console.log(res);
+        // console.log(res);
     }
 
 
     return (
         <div className="min-h-screen bg-gray-900 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-            <div className="max-w-md w-full space-y-8">
+            <div className="max-w-md w-full space-y-8 border border-white p-3 rounded-3xl shadow-xl">
                 {/* Header */}
                 <div className="text-center">
                     <h2 className="text-3xl font-bold text-white">
@@ -31,7 +31,7 @@ function RegisterPage() {
                     </p>
                 </div>
 
-                <form className="mt-8 space-y-6" action={handleSubmit}>
+                <form className="mt-8 space-y-6" action={handleRegister}>
                     <div className="space-y-4">
                         {/* Name Field */}
                         <div>
@@ -113,7 +113,7 @@ function RegisterPage() {
                     <div>
                         <button
                             type="submit"
-                            className="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 focus:ring-offset-gray-900 transition-colors duration-200"
+                            className="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium cursor-pointer text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 focus:ring-offset-gray-900 transition-colors duration-200"
                         >
                             Create Account
                         </button>
