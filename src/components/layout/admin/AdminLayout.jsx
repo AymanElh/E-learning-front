@@ -3,7 +3,6 @@ import AdminSidebar from "./AdminSidebar.jsx";
 import AdminHeader from "./AdminHeader.jsx";
 
 function AdminLayout({children})  {
-    console.log(children);
     return (
         <div className="min-h-screen bg-gray-900 text-white flex">
             <AdminSidebar />

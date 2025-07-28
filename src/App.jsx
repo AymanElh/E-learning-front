@@ -4,6 +4,7 @@ import LoginPage from "./pages/auth/LoginPage.jsx";
 import Dashboard from "./pages/admin/Dashboard.jsx";
 import CourseList from "./pages/admin/courses/CourseList.jsx";
 import Home from "./pages/Home.jsx";
+import CreateCourse from "./pages/admin/courses/CreateCourse.jsx";
 
 
 function App() {
@@ -15,6 +16,7 @@ function App() {
                         <Route path="/" element={<Home />} />
                         <Route path="/dashboard" element={<Dashboard />} />
                         <Route path="/admin/courses" element={<CourseList />} />
+                        <Route path="/admin/courses/create" element={<CreateCourse />} />
                         <Route path="/register" element={<RegisterPage/>}/>
                         <Route path="/login" element={<LoginPage />} />
                     </Routes>

@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from "react";
+import {Link} from 'react-router-dom';
 import AdminLayout from "../../../components/layout/admin/AdminLayout.jsx";
 import {courseService} from "../../../services/courseService.js";
 import Spinner from "../../../components/common/Spinner.jsx";
@@ -92,9 +93,11 @@ const CourseList = () => {
             <div className="bg-gray-800 rounded-lg shadow-lg overflow-hidden">
                 <div className="p-4 sm:p-6 border-b border-gray-700 flex justify-between ">
                     <h2 className="text-xl sm:text-2xl font-bold text-white">Courses</h2>
-                    <button className="bg-indigo-500 px-4 py-2 text-lg font-semibold rounded-lg cursor-pointer">Add new
+                    <Link
+                        to="/admin/courses/create"
+                        className="bg-indigo-500 px-4 py-2 text-lg font-semibold rounded-lg cursor-pointer">Add new
                         course
-                    </button>
+                    </Link>
                 </div>
 
                 {/* Desktop Table View */}

@@ -1,6 +1,6 @@
 import React from 'react';
 
-function Spinner({ size = 'md', color = 'white' }) {
+function Spinner({ size = 'md', color = 'blue' }) {
     const sizeClasses = {
         sm: 'w-4 h-4',
         md: 'w-8 h-8',
