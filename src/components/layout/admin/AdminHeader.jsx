@@ -1,7 +1,7 @@
 import React from "react";
 import {BellIcon, SettingsIcon, UserCircle2Icon} from "lucide-react";
 
-function Header({title}) {
+function AdminHeader({title}) {
     return (
         <header className="flex justify-between items-center mb-6">
             <h2 className="text-2xl font-semibold">{title} </h2>
@@ -14,4 +14,4 @@ function Header({title}) {
     );
 }
 
-export default Header;
+export default AdminHeader;

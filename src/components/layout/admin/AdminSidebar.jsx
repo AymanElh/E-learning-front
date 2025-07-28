@@ -3,7 +3,7 @@ import {NavLink} from "react-router-dom";
 import {LayoutDashboardIcon, BookOpenIcon, FolderIcon, UsersIcon, BarChart2Icon} from "lucide-react";
 
 
-function Sidebar () {
+function AdminSidebar () {
 
     const navItems = [
         {label: "Dashboard", to: "/admin", icon: <LayoutDashboardIcon className="w-5 h-5"/>},
@@ -32,4 +32,4 @@ function Sidebar () {
     )
 }
 
-export default Sidebar;
+export default AdminSidebar;

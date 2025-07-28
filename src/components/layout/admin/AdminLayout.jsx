@@ -1,14 +1,14 @@
 import React from "react";
-import Sidebar from "./Sidebar";
-import Header from "./Header";
+import AdminSidebar from "./AdminSidebar.jsx";
+import AdminHeader from "./AdminHeader.jsx";
 
 function AdminLayout({children})  {
     console.log(children);
     return (
         <div className="min-h-screen bg-gray-900 text-white flex">
-            <Sidebar />
+            <AdminSidebar />
             <main className="flex-1 p-6">
-                <Header title="Dashboard" />
+                <AdminHeader title="Dashboard" />
                 {children}
             </main>
         </div>

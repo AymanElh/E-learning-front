@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import AdminLayout from "../../../components/layout/AdminLayout.jsx";
+import AdminLayout from "../../../components/layout/admin/AdminLayout.jsx";
 import {courseService} from "../../../services/courseService.js";
 import Spinner from "../../../components/common/Spinner.jsx";
 import ErrorMessage from "../../../components/common/ErrorMessage.jsx";

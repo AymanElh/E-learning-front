@@ -1,7 +1,7 @@
 import SummaryCard from "../../components/common/SummaryCard.jsx";
 import CourseCard from "../../components/common/CourseCard.jsx";
 import {BookIcon, DollarSignIcon, FolderIcon, PlusIcon, UserIcon, UsersIcon} from "lucide-react";
-import AdminLayout from "../../components/layout/AdminLayout.jsx";
+import AdminLayout from "../../components/layout/admin/AdminLayout.jsx";
 
 function Dashboard() {
     // Sample categories data for testing
