@@ -1,7 +1,15 @@
 import React from 'react';
+import PublicHeader from "../components/layout/public/PublicHeader.jsx";
 
 function Home() {
-    return <h1>Home page</h1>
+    return (
+        <div>
+            <PublicHeader />
+            <main className="bg-gray-900 h-screen">
+
+            </main>
+        </div>
+    )
 }
 
 export default Home;
