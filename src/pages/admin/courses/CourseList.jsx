@@ -163,9 +163,9 @@ const CourseList = () => {
                                     </td>
                                     <td className="px-6 py-4">
                                         <div className="flex space-x-2">
-                                            <button className="text-blue-400 hover:text-blue-300 font-medium">
+                                            <Link to={`/admin/courses/${course.id}/edit`} className="text-blue-400 hover:text-blue-300 font-medium">
                                                 Edit
-                                            </button>
+                                            </Link>
                                             <button className="text-red-400 hover:text-red-300 font-medium">
                                                 Delete
                                             </button>
