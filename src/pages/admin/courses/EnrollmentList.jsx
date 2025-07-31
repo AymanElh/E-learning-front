@@ -72,7 +72,7 @@ function EnrollmentList() {
                             <tbody>
                             {enrollments && enrollments.map(enrollment => (
                                 <tr key={enrollment.id}
-                                    className="bg-gray-800 border-b border-gray-700 hover:bg-gray-750 transition-colors">
+                                    className="bg-gray-800 border-b border-gray-700 hover:bg-gray-700 transition-colors">
                                     <td className="px-6 py-4">{enrollment.id}</td>
                                     <td className="px-6 py-4">{enrollment.course.title}</td>
                                     <td className="px-6 py-4">

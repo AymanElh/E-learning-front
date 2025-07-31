@@ -105,7 +105,7 @@ function TagManagement() {
                             <tbody>
                             {tags && tags.map(tag => (
                                 <tr key={tag.id}
-                                    className="bg-gray-800  border-b border-gray-700 hover:bg-gray-750 transition-colors">
+                                    className="bg-gray-800  border-b border-gray-700 hover:bg-gray-700 cursor-pointer transition-colors">
                                     <td className="px-6 py-3 font-medium">{tag.id}</td>
                                     <td className="px-6 py-3 font-medium">{tag.name}</td>
                                     <td className="px-6 py-3">

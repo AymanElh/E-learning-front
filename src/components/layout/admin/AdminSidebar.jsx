@@ -1,6 +1,6 @@
 import React from "react";
 import {NavLink} from "react-router-dom";
-import {LayoutDashboardIcon, BookOpenIcon, FolderIcon, UsersIcon, BarChart2Icon, Tags} from "lucide-react";
+import {LayoutDashboardIcon, BookOpenIcon, FolderIcon, UsersIcon, Tags} from "lucide-react";
 
 
 function AdminSidebar () {
@@ -11,7 +11,8 @@ function AdminSidebar () {
         {label: "Categories", to: "/admin/categories", icon: <FolderIcon className="w-5 h-5"/>},
         {label: "Enrollments", to: "/admin/enrollments", icon: <UsersIcon className="w-5 h-5"/>},
         {label: "Tags", to: "/admin/tags", icon: <Tags className="w-5 h-5" />},
-        {label: "Analytics", to: "#", icon: <BarChart2Icon className="w-5 h-5"/>},
+        // Temporarily removed Analytics until the route is implemented
+        // {label: "Analytics", to: "/admin/analytics", icon: <BarChart2Icon className="w-5 h-5"/>},
     ]
 
     return (
@@ -22,7 +23,7 @@ function AdminSidebar () {
                     <NavLink
                         key={label}
                         to={to}
-                        className="flex items-center gap-3 px-3 py-2 rounded transition hover:bg-gray-700"
+                        className={({isActive}) => `flex items-center gap-3 px-3 py-2 rounded transition ${isActive ? 'bg-indigo-600 text-white shadow-lg' : 'hover:bg-gray-700 text-gray-300'}`}
                     >
                         {icon}
                         {label}

@@ -147,7 +147,7 @@ const CourseList = () => {
                             <tbody>
                             {courses.map((course) => (
                                 <tr key={course.id}
-                                    className="bg-gray-800 border-b border-gray-700 hover:bg-gray-750 transition-colors">
+                                    className="bg-gray-800 border-b border-gray-700 hover:bg-gray-700 cursor-pointer transition-colors">
                                     <td className="px-6 py-4 font-medium text-white">{course.id}</td>
                                     <td className="px-6 py-4">
                                         <img src={course.thumbnail_url} alt={course.title} className="w-15 h-15" />

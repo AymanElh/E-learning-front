@@ -4,7 +4,7 @@ export const enrollmentService = {
     getAllEnrollments: async function() {
         try {
             const response = await api.get('/enrollments');
-            console.log(response)
+            // console.log(response)
             if (response.status === 200) {
                 return response.data;
             } else {

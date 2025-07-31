@@ -8,8 +8,11 @@ export const authService = {
 
             if (res.status === 201) {
                 const data = res.data;
-                // console.log(data);
+                console.log(data);
                 tokenService.setToken(data.data.token.access_token);
+
+                this.setUser(data.data.user)
+
                 return {success: true, user: data.data.user};
             } else {
                 return {success: false, error: data.message || "Registration failed"}
@@ -29,7 +32,12 @@ export const authService = {
                 const data = res.data;
                 console.log("data: ", data);
                 tokenService.setToken(data.data.token.access_token);
-                return {success: true, message: "Login successfull"};
+
+                if (data.data.user) {
+                    this.setUser(data.data.user);
+                }
+
+                return {success: true, message: "Login successfully"};
             } else {
                 return {success: false, error: data.message || "Login failed"};
             }
@@ -39,7 +47,7 @@ export const authService = {
             return {success: false, error: errMessage};
         }
     },
-    logout: async function() {
+    logout: async function () {
         try {
             const token = tokenService.getToken();
             const res = await api.post('/logout');
@@ -49,5 +57,33 @@ export const authService = {
             console.error("Error logout: ", err);
             return {success: false}
         }
-    }
+    },
+    getCurrentUser: function () {
+        try {
+            const userStr = localStorage.getItem('user');
+            if (userStr) {
+                return JSON.parse(userStr);
+            }
+            return null;
+        } catch (err) {
+            console.error('Error parsing user data from localStorage:', error);
+            return null;
+
+        }
+    },
+    setUser: function (user) {
+        try {
+            localStorage.setItem('user', JSON.stringify(user));
+        } catch (error) {
+            console.error('Error storing user data:', error);
+        }
+    },
+    removeUser: function () {
+        localStorage.removeItem('user');
+    },
+    isAuthenticated: function () {
+        const token = tokenService.getToken();
+        const user = this.getCurrentUser();
+        return !!(token && user);
+    },
 }
