@@ -132,6 +132,7 @@ const CourseList = () => {
                             <thead className="text-xs text-gray-400 uppercase bg-gray-700">
                             <tr>
                                 <th className="px-6 py-3">ID</th>
+                                <th className="px-6 py-3">Thumbnail</th>
                                 <th className="px-6 py-3">Title</th>
                                 <th className="px-6 py-3">Duration</th>
                                 <th className="px-6 py-3">Difficulty</th>
@@ -148,6 +149,9 @@ const CourseList = () => {
                                 <tr key={course.id}
                                     className="bg-gray-800 border-b border-gray-700 hover:bg-gray-750 transition-colors">
                                     <td className="px-6 py-4 font-medium text-white">{course.id}</td>
+                                    <td className="px-6 py-4">
+                                        <img src={course.thumbnail_url} alt={course.title} className="w-15 h-15" />
+                                    </td>
                                     <td className="px-6 py-4 font-medium text-white">{course.title}</td>
                                     <td className="px-6 py-4">{course.duration} min</td>
                                     <td className="px-6 py-4">
