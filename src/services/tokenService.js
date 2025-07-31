@@ -2,16 +2,16 @@ import {jwtDecode} from "jwt-decode";
 
 export const tokenService = {
     getToken: () => {
-        return sessionStorage.getItem('auth_token');
+        return localStorage.getItem('auth_token');
     },
     setToken: (token) => {
-        return sessionStorage.setItem('auth_token', token);
+        return localStorage.setItem('auth_token', token);
     },
     removeToken: () => {
-        sessionStorage.removeItem('auth_token');
+        localStorage.removeItem('auth_token');
     },
     isAuthenticated: () => {
-        const token = sessionStorage.getItem('auth_token');
+        const token = localStorage.getItem('auth_token');
         if(!token) return null;
 
         try {
