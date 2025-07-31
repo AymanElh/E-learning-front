@@ -64,7 +64,7 @@ export const courseService = {
                 return {success: false, message: `Unexpected status code: ${response.status}`}
             }
         } catch (error) {
-            console.error("error udating course: ", error);
+            console.error("error updating course: ", error);
             if(error.response && error.response.status === 422) {
                 return {
                     success: false,
@@ -73,6 +73,27 @@ export const courseService = {
                 }
             }
             return {success: false, message: "Failed to update course"};
+        }
+    },
+    deleteCourse: async function(courseId) {
+        try {
+            const response = await api.delete(`/courses/${courseId}`);
+            console.log(response);
+            if(response.status === 200) {
+                return response.data;
+            } else {
+                return {success: false, message: `Unexpected status code: ${response.status}`}
+            }
+        } catch (error) {
+            console.error("error deleting course: ", error);
+            if(error.response && error.response.status === 422) {
+                return {
+                    success: false,
+                    message: "Validation failed",
+                    errors: error?.response?.data?.errors
+                }
+            }
+            return {success: false, message: error?.response?.message};
         }
     }
 }

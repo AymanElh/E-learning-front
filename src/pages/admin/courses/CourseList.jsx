@@ -4,6 +4,7 @@ import AdminLayout from "../../../components/layout/admin/AdminLayout.jsx";
 import {courseService} from "../../../services/courseService.js";
 import Spinner from "../../../components/common/Spinner.jsx";
 import ErrorMessage from "../../../components/common/ErrorMessage.jsx";
+import {categoryService} from "../../../services/categoryService.js";
 
 const CourseList = () => {
     const data = [
@@ -50,6 +51,7 @@ const CourseList = () => {
     const [courses, setCourses] = useState(data);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
+    const [deletingId, setDeletingId] = useState(null);
 
     useEffect(() => {
         fetchCourses();
@@ -67,6 +69,29 @@ const CourseList = () => {
             setError(result.message);
         }
         setLoading(false);
+    }
+
+    async function handleDeletingCourse(id, name) {
+        if (!confirm(`Are sure to delete ${name} course? This action cannot be undone`)) {
+            return;
+        }
+        setDeletingId(id);
+        try {
+            const result = await courseService.deleteCourse(id);
+
+            if (result.success) {
+                alert("Course deleted successfully");
+                fetchCourses(); // Refresh the list
+            } else {
+                // Handle API errors
+                alert(result.message || "Failed to delete course");
+            }
+        } catch (err) {
+            console.error("Error deleting course:", err);
+            alert("An unexpected error occurred while deleting the course");
+        } finally {
+            setDeletingId(null); // Reset loading state
+        }
     }
 
     if (loading) {
@@ -166,7 +191,9 @@ const CourseList = () => {
                                             <Link to={`/admin/courses/${course.id}/edit`} className="text-blue-400 hover:text-blue-300 font-medium">
                                                 Edit
                                             </Link>
-                                            <button className="text-red-400 hover:text-red-300 font-medium">
+                                            <button
+                                                onClick={() => handleDeletingCourse(course.id, course.title)}
+                                                className="text-red-400 hover:text-red-300 font-medium">
                                                 Delete
                                             </button>
                                         </div>
