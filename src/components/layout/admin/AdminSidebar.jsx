@@ -1,6 +1,6 @@
 import React from "react";
 import {NavLink} from "react-router-dom";
-import {LayoutDashboardIcon, BookOpenIcon, FolderIcon, UsersIcon, BarChart2Icon} from "lucide-react";
+import {LayoutDashboardIcon, BookOpenIcon, FolderIcon, UsersIcon, BarChart2Icon, Tags} from "lucide-react";
 
 
 function AdminSidebar () {
@@ -10,6 +10,7 @@ function AdminSidebar () {
         {label: "Courses", to: "/admin/courses", icon: <BookOpenIcon className="w-5 h-5"/>},
         {label: "Categories", to: "/admin/categories", icon: <FolderIcon className="w-5 h-5"/>},
         {label: "Enrollments", to: "/admin/enrollments", icon: <UsersIcon className="w-5 h-5"/>},
+        {label: "Tags", to: "/admin/tags", icon: <Tags className="w-5 h-5" />},
         {label: "Analytics", to: "#", icon: <BarChart2Icon className="w-5 h-5"/>},
     ]
 

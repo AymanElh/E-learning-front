@@ -216,7 +216,7 @@ const CategoryModal = ({isOpen, onClose, onCategoryChanged, categories = [], edi
                             >
                                 {loading && <Spinner size="small"/>}
                                 {loading ?
-                                    (isEditMode ? 'Updating...' : 'Update Category') :
+                                    (isEditMode ? 'Updating...' : 'Creating...') :
                                     (isEditMode ? 'Update category' : 'Create category')
                                 }
                             </button>

@@ -1,8 +1,8 @@
-import AdminLayout from "../../components/layout/admin/AdminLayout.jsx";
+import AdminLayout from "../../../components/layout/admin/AdminLayout.jsx";
 import {useEffect, useState} from "react";
-import {enrollmentService} from "../../services/enrollmentService.js";
-import Spinner from "../../components/common/Spinner.jsx";
-import ErrorMessage from "../../components/common/ErrorMessage.jsx";
+import {enrollmentService} from "../../../services/enrollmentService.js";
+import Spinner from "../../../components/common/Spinner.jsx";
+import ErrorMessage from "../../../components/common/ErrorMessage.jsx";
 import moment from "moment/moment.js";
 
 
