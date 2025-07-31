@@ -1,9 +1,12 @@
 import {useState} from "react";
 import {authService} from "../../services/authService.js";
+import {useNavigate} from "react-router-dom";
 
 function LoginPage() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+
+    const navigate = useNavigate();
 
     async function handleLogin(formData) {
         const credentials = {
@@ -13,7 +16,9 @@ function LoginPage() {
 
         const result = await authService.login(credentials);
         console.log(result);
-
+        if(result.success) {
+            navigate('/');
+        }
     }
 
     return (

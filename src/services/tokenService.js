@@ -1,3 +1,5 @@
+import {jwtDecode} from "jwt-decode";
+
 export const tokenService = {
     getToken: () => {
         return sessionStorage.getItem('auth_token');
@@ -9,6 +11,18 @@ export const tokenService = {
         sessionStorage.removeItem('auth_token');
     },
     isAuthenticated: () => {
-        return !!sessionStorage.getItem('auth_token');
+        const token = sessionStorage.getItem('auth_token');
+        if(!token) return null;
+
+        try {
+            const {exp} = jwtDecode(token);
+            console.log(exp);
+            if(!exp) return false;
+
+            const now = Date.now() / 1000;
+            return exp > now
+        } catch (err) {
+            return false;
+        }
     }
 }
