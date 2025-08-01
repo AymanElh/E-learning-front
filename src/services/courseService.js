@@ -95,5 +95,22 @@ export const courseService = {
             }
             return {success: false, message: error?.response?.message};
         }
+    },
+    getCourseEnrollments: async function(courseId) {
+        try {
+            const response = await api.get(`/courses/${courseId}/enrollments`);
+            console.log(response);
+            if(response.status === 200) {
+                return response.data;
+            } else {
+                return {success: false, message: `Unexpected status code: ${response.status}`}
+            }
+        } catch (error) {
+            console.error("Error fetching course enrollments: ", error);
+            if(error.response && error.response.status === 404) {
+                return {success: false, message: "Course not found"}
+            }
+            return {success: false, message: error?.response?.data?.message || "Failed to retrieve course enrollments"};
+        }
     }
 }

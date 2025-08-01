@@ -1,10 +1,9 @@
 import React, {useEffect, useState} from "react";
-import {Link} from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 import AdminLayout from "../../../components/layout/admin/AdminLayout.jsx";
 import {courseService} from "../../../services/courseService.js";
 import Spinner from "../../../components/common/Spinner.jsx";
 import ErrorMessage from "../../../components/common/ErrorMessage.jsx";
-import {categoryService} from "../../../services/categoryService.js";
 
 const CourseList = () => {
     const data = [
@@ -52,6 +51,8 @@ const CourseList = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
     const [deletingId, setDeletingId] = useState(null);
+
+    const navigate = useNavigate();
 
     useEffect(() => {
         fetchCourses();
@@ -191,7 +192,10 @@ const CourseList = () => {
                                         )}
                                     </td>
                                     <td className="px-6 py-4">
-                                        <div className="flex space-x-2">
+                                        <div className="flex space-x-4">
+                                            <Link to={`/admin/courses/${course.id}/preview`} className="text-green-400 hover:text-green-300 font-medium">
+                                                Preview
+                                            </Link>
                                             <Link to={`/admin/courses/${course.id}/edit`} className="text-blue-400 hover:text-blue-300 font-medium">
                                                 Edit
                                             </Link>
@@ -220,11 +224,16 @@ const CourseList = () => {
                                         <p className="text-sm text-gray-400">ID: {course.id}</p>
                                     </div>
                                     <div className="flex space-x-2">
-                                        <button
+                                        <Link to={`/admin/courses/${course.id}/preview`}
+                                            className="px-3 py-1 text-sm bg-green-600 text-white rounded hover:bg-green-700">
+                                            Preview
+                                        </Link>
+                                        <Link to={`/admin/courses/${course.id}/edit`}
                                             className="px-3 py-1 text-sm bg-blue-600 text-white rounded hover:bg-blue-700">
                                             Edit
-                                        </button>
+                                        </Link>
                                         <button
+                                            onClick={() => handleDeletingCourse(course.id, course.title)}
                                             className="px-3 py-1 text-sm bg-red-600 text-white rounded hover:bg-red-700">
                                             Delete
                                         </button>
