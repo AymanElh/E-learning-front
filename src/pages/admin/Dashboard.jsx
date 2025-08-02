@@ -1,5 +1,5 @@
 import SummaryCard from "../../components/common/SummaryCard.jsx";
-import CourseCard from "../../components/common/CourseCard.jsx";
+import CourseAdminCard from "../../components/common/CourseAdminCard.jsx";
 import {BookIcon, DollarSignIcon, FolderIcon, PlusIcon, UserIcon, UsersIcon} from "lucide-react";
 import AdminLayout from "../../components/layout/admin/AdminLayout.jsx";
 
@@ -31,10 +31,10 @@ function Dashboard() {
                         </button>
                     </div>
                     <div className="p-2 flex flex-col gap-3">
-                        <CourseCard title="React Foundamentals" category="Programming" price="200" students="40"/>
-                        <CourseCard title="React Foundamentals" category="Programming" price="200" students="40"/>
-                        <CourseCard title="React Foundamentals" category="Programming" price="200" students="40"/>
-                        <CourseCard title="React Foundamentals" category="Programming" price="200" students="40"/>
+                        <CourseAdminCard title="React Foundamentals" category="Programming" price="200" students="40"/>
+                        <CourseAdminCard title="React Foundamentals" category="Programming" price="200" students="40"/>
+                        <CourseAdminCard title="React Foundamentals" category="Programming" price="200" students="40"/>
+                        <CourseAdminCard title="React Foundamentals" category="Programming" price="200" students="40"/>
 
                     </div>
                 </section>

@@ -1,23 +1,63 @@
-import React from 'react';
-import {DollarSign, Trash2Icon} from "lucide-react";
+import {BookOpenIcon, ClockIcon, StarIcon, UsersIcon} from "lucide-react";
 
-function CourseCard({title, category, students, price, imageUrl}) {
+function CourseCard({course}) {
     return (
-        <div className="bg-gray-800 p-4 rounded-xl flex justify-between items-center">
-            <div className="flex items-center gap-4">
-                <img
-                    src="https://images.unsplash.com/photo-1682905926517-6be3768e29f0?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                    alt={title}
-                    className="w-20 h-20 object-cover rounded-lg"
-                />
-                <div>
-                    <h4 className="font-semibold">{title}</h4>
-                    <p className="text-sm text-gray-400">{category} • {students} students</p>
-                    <p className="text-lg font-bold mt-1 flex items-center"><DollarSign /> {price}</p>
+        <div
+            key={course.id}
+            className="bg-white dark:bg-gray-800 rounded-lg shadow-md hover:shadow-lg dark:shadow-gray-900/50 transition overflow-hidden"
+        >
+            {/* Course Image */}
+            <div className="h-48 bg-gradient-to-r from-blue-500 to-purple-600 flex items-center justify-center">
+                <BookOpenIcon className="w-16 h-16 text-white"/>
+            </div>
+
+            {/* Course Content */}
+            <div className="p-6">
+                <div className="flex items-center justify-between mb-2">
+                    <span className="text-sm text-blue-600 dark:text-blue-400 font-medium">
+                      {course.category.name ?? ""}
+                    </span>
+                    <span
+                        className="text-sm text-gray-500 dark:text-gray-400 bg-gray-100 dark:bg-gray-700 px-2 py-1 rounded">
+                      {course.difficulty}
+                    </span>
+                </div>
+
+                <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
+                    {course.title}
+                </h3>
+
+                <p className="text-gray-600 dark:text-gray-300 mb-4">
+                    by {course.instructor.name ?? ""}
+                </p>
+
+                {/* Course Stats */}
+                <div className="flex items-center gap-4 mb-4 text-sm text-gray-500 dark:text-gray-400">
+                    <div className="flex items-center gap-1">
+                        <UsersIcon className="w-4 h-4"/>
+                        <span>{course.students ?? ""}</span>
+                    </div>
+                    <div className="flex items-center gap-1">
+                        <ClockIcon className="w-4 h-4"/>
+                        <span>{course.duration}</span>
+                    </div>
+                </div>
+
+                {/* Price and Enroll */}
+                <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <span className="text-2xl font-bold text-gray-900 dark:text-white">
+                        {course.isFree ?  "Free" : `$${course.price}`}
+                      </span>
+                    </div>
+                    <button
+                        className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition">
+                        Enroll Now
+                    </button>
                 </div>
             </div>
-            <Trash2Icon className="text-red-500 w-5 h-5 cursor-pointer"/>
         </div>
+
     );
 }
 

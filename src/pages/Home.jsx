@@ -1,6 +1,5 @@
 import React from 'react';
-import PublicHeader from "../components/layout/public/PublicHeader.jsx";
-import PublicFooter from "../components/layout/public/PublicFooter.jsx";
+import PublicLayout from "../components/layout/public/PublicLayout.jsx";
 import { BookOpenIcon, StarIcon, PlayCircleIcon, CheckCircleIcon, TrendingUpIcon } from 'lucide-react';
 
 function Home() {
@@ -35,9 +34,7 @@ function Home() {
     ];
 
     return (
-        <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
-            <PublicHeader />
-
+        <PublicLayout>
             {/* Hero Section */}
             <section className="bg-gradient-to-r from-blue-600 to-purple-700 dark:from-blue-800 dark:to-purple-900 text-white py-20">
                 <div className="container mx-auto px-6 text-center">
@@ -180,9 +177,7 @@ function Home() {
                     </div>
                 </div>
             </section>
-
-            <PublicFooter />
-        </div>
+        </PublicLayout>
     )
 }
 
