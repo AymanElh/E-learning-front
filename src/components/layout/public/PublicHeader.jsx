@@ -18,7 +18,7 @@ function PublicHeader() {
     }
 
     return (
-        <header className="bg-gray-900 dark:bg-gray-950 text-white shadow-lg">
+        <header className="bg-gray-900 dark:bg-gray-800 text-white shadow-lg">
             <div className="max-w-7xl mx-auto px-4 ">
                 <div className="flex justify-between items-center h-16">
                     {/* Logo */}
