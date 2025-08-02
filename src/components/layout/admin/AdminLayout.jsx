@@ -4,15 +4,14 @@ import AdminHeader from "./AdminHeader.jsx";
 
 function AdminLayout({children})  {
     return (
-        <div className="min-h-screen bg-gray-900 text-white flex">
+        <div className="min-h-screen bg-gray-900 text-white">
             <AdminSidebar />
-            <main className="flex-1 p-6">
+            <main className="ml-64 p-6">
                 <AdminHeader title="Dashboard" />
                 {children}
             </main>
         </div>
     );
 }
-
 
 export default AdminLayout;

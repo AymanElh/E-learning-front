@@ -10,13 +10,11 @@ function AdminSidebar () {
         {label: "Courses", to: "/admin/courses", icon: <BookOpenIcon className="w-5 h-5"/>},
         {label: "Categories", to: "/admin/categories", icon: <FolderIcon className="w-5 h-5"/>},
         {label: "Enrollments", to: "/admin/enrollments", icon: <UsersIcon className="w-5 h-5"/>},
-        {label: "Tags", to: "/admin/tags", icon: <Tags className="w-5 h-5" />},
-        // Temporarily removed Analytics until the route is implemented
-        // {label: "Analytics", to: "/admin/analytics", icon: <BarChart2Icon className="w-5 h-5"/>},
+        {label: "Tags", to: "/admin/tags", icon: <Tags className="w-5 h-5" />}
     ]
 
     return (
-        <aside className="w-64 p-6 text-white bg-gray-800">
+        <aside className="fixed top-0 left-0 w-64 h-screen p-6 text-white bg-gray-800 overflow-y-auto">
             <h1 className="text-2xl font-bold mb-6">Admin dashboard</h1>
             <nav className="space-y-4 text-sm">
                 {navItems && navItems.map(({label, to, icon}) => (
