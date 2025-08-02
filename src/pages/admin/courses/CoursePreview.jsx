@@ -11,6 +11,7 @@ const CoursePreview = () => {
     const [enrollments, setEnrollments] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
+    const [expandedSections, setExpandedSections] = useState(new Set());
 
     useEffect(() => {
         fetchCourseData();
@@ -47,6 +48,19 @@ const CoursePreview = () => {
 
         setLoading(false);
     }
+
+    console.log(expandedSections);
+    const toggleSection = (sectionId) => {
+        setExpandedSections(prev => {
+            const newSet = new Set(prev);
+            if (newSet.has(sectionId)) {
+                newSet.delete(sectionId);
+            } else {
+                newSet.add(sectionId);
+            }
+            return newSet;
+        });
+    };
 
     if (loading) {
         return (
@@ -169,6 +183,124 @@ const CoursePreview = () => {
                         </div>
                     </div>
                 </div>
+
+                {/* Course Sections */}
+                {course.sections && course.sections.length > 0 && (
+                    <div className="bg-gray-800 rounded-lg shadow-lg overflow-hidden">
+                        <div className="p-6 border-b border-gray-700">
+                            <h2 className="text-xl font-bold text-white">Course Sections</h2>
+                            <p className="text-gray-400 mt-1">Total sections: {course.sections.length}</p>
+                        </div>
+
+                        <div className="p-6 space-y-4">
+                            {course.sections.map((section) => (
+                                <div key={section.id} className="border border-gray-700 rounded-lg overflow-hidden">
+                                    {/* Section Header */}
+                                    <div
+                                        className="p-4 bg-gray-700 cursor-pointer hover:bg-gray-600 transition-colors"
+                                        onClick={() => toggleSection(section.id)}
+                                    >
+                                        <div className="flex items-center justify-between">
+                                            <div className="flex-1">
+                                                <h3 className="text-lg font-semibold text-white">{section.title}</h3>
+                                                <p className="text-gray-300 text-sm mt-1">{section.description}</p>
+                                                <div className="flex items-center gap-4 mt-2">
+                                                    <span className="text-gray-400 text-sm">
+                                                        {section.lessons_count} lesson{section.lessons_count !== 1 ? 's' : ''}
+                                                    </span>
+                                                    <span className={`px-2 py-1 rounded-full text-xs font-medium ${
+                                                        section.is_published
+                                                            ? 'bg-green-900 text-green-300'
+                                                            : 'bg-gray-900 text-gray-300'
+                                                    }`}>
+                                                        {section.is_published ? 'Published' : 'Draft'}
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div className="ml-4">
+                                                <svg
+                                                    className={`w-5 h-5 text-gray-400 transform transition-transform ${
+                                                        expandedSections.has(section.id) ? 'rotate-180' : ''
+                                                    }`}
+                                                    fill="none"
+                                                    stroke="currentColor"
+                                                    viewBox="0 0 24 24"
+                                                >
+                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+                                                          d="M19 9l-7 7-7-7"/>
+                                                </svg>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {/* Section Content (Lessons) */}
+                                    {expandedSections.has(section.id) && (
+                                        <div className="p-4 bg-gray-800 border-t border-gray-700">
+                                            {section.lessons && section.lessons.length > 0 ? (
+                                                <div className="space-y-3">
+                                                    <h4 className="text-md font-medium text-white mb-3">Lessons:</h4>
+                                                    {section.lessons.map((lesson, index) => (
+                                                        <div key={lesson.id}
+                                                             className="flex items-center justify-between p-3 bg-gray-700 rounded-lg">
+                                                            <div className="flex-1">
+                                                                <div className="flex items-center gap-3">
+                                                                    <span className="text-gray-400 text-sm font-medium">
+                                                                        {index + 1}.
+                                                                    </span>
+                                                                    <div>
+                                                                        <h5 className="text-white font-medium">{lesson.title}</h5>
+                                                                        {lesson.description && (
+                                                                            <p className="text-gray-300 text-sm mt-1">{lesson.description}</p>
+                                                                        )}
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div className="flex items-center gap-3">
+                                                                <span
+                                                                    className={`px-2 py-1 rounded-full text-xs font-medium ${
+                                                                        lesson.lesson_type === 'video'
+                                                                            ? 'bg-blue-900 text-blue-300'
+                                                                            : lesson.lesson_type === 'article'
+                                                                                ? 'bg-purple-900 text-purple-300'
+                                                                                : 'bg-gray-900 text-gray-300'
+                                                                    }`}>
+                                                                    {lesson.lesson_type}
+                                                                </span>
+                                                                {lesson.duration_minutes && (
+                                                                    <span className="text-gray-400 text-sm">
+                                                                        {lesson.duration_minutes} min
+                                                                    </span>
+                                                                )}
+                                                                <span
+                                                                    className={`px-2 py-1 rounded-full text-xs font-medium ${
+                                                                        lesson.is_published
+                                                                            ? 'bg-green-900 text-green-300'
+                                                                            : 'bg-gray-900 text-gray-300'
+                                                                    }`}>
+                                                                    {lesson.is_published ? 'Published' : 'Draft'}
+                                                                </span>
+                                                                {lesson.is_free_preview ? (
+                                                                    <span
+                                                                        className="px-2 py-1 rounded-full text-xs font-medium bg-yellow-900 text-yellow-300">
+                                                                        Free Preview
+                                                                    </span>
+                                                                ) : null}
+                                                            </div>
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                            ) : (
+                                                <div className="text-center text-gray-400 py-4">
+                                                    <p>No lessons found in this section.</p>
+                                                </div>
+                                            )}
+                                        </div>
+                                    )}
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                )}
 
                 {/* Enrollments Table */}
                 <div className="bg-gray-800 rounded-lg shadow-lg overflow-hidden">
