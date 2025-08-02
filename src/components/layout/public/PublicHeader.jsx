@@ -18,14 +18,14 @@ function PublicHeader() {
     }
 
     return (
-        <header className="bg-gray-900 text-white shadow-lg">
+        <header className="bg-gray-900 dark:bg-gray-950 text-white shadow-lg">
             <div className="max-w-7xl mx-auto px-4 ">
                 <div className="flex justify-between items-center h-16">
                     {/* Logo */}
                     <div className="flex-shrink-0">
                         <Link to="/" className="flex items-center space-x-2">
                             <BookOpenIcon className="w-8 h-8 text-blue-500"/>
-                            <span className="text-xl font-bold">EduPlatform</span>
+                            <span className="text-xl font-bold">EduLearn</span>
                         </Link>
                     </div>
 
@@ -58,7 +58,7 @@ function PublicHeader() {
                             <input
                                 type="text"
                                 placeholder="Search courses..."
-                                className="w-64 pl-10 pr-4 py-2 bg-gray-800 border border-gray-700 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                className="w-64 pl-10 pr-4 py-2 bg-gray-800 dark:bg-gray-900 border border-gray-700 dark:border-gray-600 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                             />
                         </div>
                     </div>
@@ -78,25 +78,25 @@ function PublicHeader() {
                                 {/*Dropdown menu*/}
                                 {isUserMenuOpen && (
                                     <div
-                                        className="absolute right-0 mt-2 w-48 bg-gray-800 rounded-md shadow-lg py-1 z-50 ">
+                                        className="absolute right-0 mt-2 w-48 bg-gray-800 dark:bg-gray-900 rounded-md shadow-lg py-1 z-50 ">
                                         <Link
                                             to="/dashboard"
-                                            className="block  px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-white">My
+                                            className="block  px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 dark:hover:bg-gray-800 hover:text-white">My
                                             Dashboard
                                         </Link>
                                         <Link
                                             to=""
-                                            className="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-white">My
+                                            className="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 dark:hover:bg-gray-800 hover:text-white">My
                                             Courses
                                         </Link>
                                         <Link
                                             to=""
-                                            className="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-white">Profile
+                                            className="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 dark:hover:bg-gray-800 hover:text-white">Profile
                                         </Link>
-                                        <hr className="border-gray-700 my-1"/>
+                                        <hr className="border-gray-700 dark:border-gray-600 my-1"/>
                                         <button
                                             onClick={handleLogout}
-                                            className="block w-full text-left px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-white">Logout
+                                            className="block w-full text-left px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 dark:hover:bg-gray-800 hover:text-white">Logout
                                         </button>
                                     </div>
                                 )}
@@ -105,7 +105,7 @@ function PublicHeader() {
                             <div className="flex items-center space-x-4">
                                 <Link className="text-gray-300 hover:text-white transition-colors"
                                       to="/login">Login</Link>
-                                <Link className="bg-blue-500 px-4 py-2 rounded-lg transition-colors hover:bg-blue-700"
+                                <Link className="bg-blue-500 hover:bg-blue-600 dark:bg-blue-600 dark:hover:bg-blue-700 px-4 py-2 rounded-lg transition-colors"
                                       to="/register">Signup</Link>
                             </div>
                         )}
