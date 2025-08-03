@@ -53,7 +53,7 @@ function CoursesPage() {
         setLoading(true);
         setError('');
 
-        const result = await courseService.getAllCourses();
+        const result = await courseService.getOpenCourses();
         console.log(result);
         if (result.success) {
             setCourses(result.data);

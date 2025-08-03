@@ -112,5 +112,18 @@ export const courseService = {
             }
             return {success: false, message: error?.response?.data?.message || "Failed to retrieve course enrollments"};
         }
+    },
+    getOpenCourses: async function() {
+        try {
+            const response = await api.get('/courses/open');
+            if(response.status === 200) {
+                return response.data;
+            } else {
+                return {success: false, message: "Unexpected error"}
+            }
+        } catch (err) {
+            console.error("Error fetching the open courses", err);
+            return {success: false, message: "Failed to retrieve open courses"};
+        }
     }
 }
