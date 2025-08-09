@@ -14,5 +14,8 @@ export const enrollmentService = {
             console.error("Error fetching courses: ", error);
             return {success: false, message: "failed to retrieve enrollments"}
         }
+    },
+    getEnrollmentStatus: async function(courseId, userId) {
+
     }
 }

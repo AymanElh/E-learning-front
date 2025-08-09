@@ -34,6 +34,7 @@ function CoursePreviewPage() {
 
     console.log(id);
 
+
     useEffect(() => {
         if (id) {
             fetchCourse();
@@ -51,6 +52,10 @@ function CoursePreviewPage() {
             setError(result.message);
         }
         setCourseLoading(false);
+    }
+
+    async function checkEnrollmentStatus() {
+
     }
 
     async function handleEnroll() {
