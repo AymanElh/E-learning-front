@@ -13,6 +13,8 @@ const CoursePreview = () => {
     const [error, setError] = useState("");
     const [expandedSections, setExpandedSections] = useState(new Set());
 
+    console.log(id);
+
     useEffect(() => {
         fetchCourseData();
     }, [id]);
