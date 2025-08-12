@@ -1,4 +1,5 @@
 import {BrowserRouter as Router, Routes, Route} from 'react-router-dom';
+import {AuthProvider} from "./contexts/AuthContext.jsx";
 import RegisterPage from "./pages/auth/RegisterPage.jsx";
 import LoginPage from "./pages/auth/LoginPage.jsx";
 import Dashboard from "./pages/admin/Dashboard.jsx";
@@ -16,7 +17,7 @@ import CoursePreviewPage from "./pages/public/courses/CoursePreviewPage.jsx";
 
 function App() {
     return (
-        <>
+        <AuthProvider>
             <Router>
                 <div className="app">
                     <Routes>
@@ -36,7 +37,7 @@ function App() {
                     </Routes>
                 </div>
             </Router>
-        </>
+        </AuthProvider>
     )
 }
 

@@ -1,4 +1,4 @@
-import {useEffect, useState} from "react";
+import {use, useEffect, useState} from "react";
 import {useParams, useNavigate} from "react-router-dom";
 import PublicLayout from "../../../components/layout/public/PublicLayout.jsx";
 import {courseService} from "../../../services/courseService.js";
@@ -16,14 +16,23 @@ import {
     AwardIcon,
     ArrowLeftIcon
 } from "lucide-react";
+import {useEnrollment} from "../../../hooks/useEnrollment.js";
+import {useAuth} from "../../../contexts/AuthContext.jsx";
 
 function CoursePreviewPage() {
     const {id} = useParams();
     const navigate = useNavigate();
+
     const [course, setCourse] = useState(null);
-    const [loading, setLoading] = useState(true);
+    const [courseLoading, setCourseLoading] = useState(true);
+    const [enrollmentLoading, setEnrollmentLoading] = useState(false);
     const [error, setError] = useState("");
-    const [enrolling, setEnrolling] = useState(false);
+
+
+    const {isAuthenticated, user} = useAuth();
+    const {isEnrolled, loading: enrollmentCheckLoading, enrollInCourse, error: enrollmentError} = useEnrollment(id);
+
+    console.log(id);
 
     useEffect(() => {
         if (id) {
@@ -32,7 +41,7 @@ function CoursePreviewPage() {
     }, [id]);
 
     async function fetchCourse() {
-        setLoading(true);
+        setCourseLoading(true);
         setError("");
 
         const result = await courseService.getCourseById(id);
@@ -41,26 +50,44 @@ function CoursePreviewPage() {
         } else {
             setError(result.message);
         }
-        setLoading(false);
+        setCourseLoading(false);
     }
 
     async function handleEnroll() {
-        setEnrolling(true);
-        // TODO: Implement enrollment service call
-        // const result = await enrollmentService.enrollInCourse(id);
-        // if (result.success) {
-        //     // Handle successful enrollment
-        // } else {
-        //     // Handle enrollment error
-        // }
-        setEnrolling(false);
+        if(!isAuthenticated()) {
+            setError("Please login to enroll this course");
+            navigate('/login');
+            return;
+        }
+
+        try {
+            setEnrollmentLoading(true);
+
+            if(course.is_free) {
+                await enrollInCourse(id, true);
+                alert("Successfully enrolled this course");
+            } else {
+                navigate(`/payment/${id}`, {
+                    state: {
+                        courseName: course.title,
+                        price: course.price,
+                        courseId: id
+                    }
+                })
+            }
+        } catch(err) {
+            console.error("Enrollment error: ", err);
+            setError(err.message || "Failed to enroll this course");
+        } finally {
+            setEnrollmentLoading(false);
+        }
     }
 
     function handleGoBack() {
         navigate(-1);
     }
 
-    if (loading) {
+    if (courseLoading) {
         return (
             <PublicLayout>
                 <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center">
@@ -204,10 +231,10 @@ function CoursePreviewPage() {
                                 {/* Enroll Button */}
                                 <button
                                     onClick={handleEnroll}
-                                    disabled={enrolling}
+                                    disabled={enrollmentLoading}
                                     className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-gray-400 text-white font-semibold py-3 px-6 rounded-lg transition mb-4"
                                 >
-                                    {enrolling ? 'Enrolling...' : 'Enroll Now'}
+                                    {enrollmentLoading ? 'Enrolling...' : 'Enroll Now'}
                                 </button>
 
                                 {/* Course Features */}
