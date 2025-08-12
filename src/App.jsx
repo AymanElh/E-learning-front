@@ -13,6 +13,7 @@ import EnrollmentList from "./pages/admin/courses/EnrollmentList.jsx";
 import TagManagement from "./pages/admin/tags/TagManagement.jsx";
 import CoursesPage from "./pages/public/courses/CoursesPage.jsx";
 import CoursePreviewPage from "./pages/public/courses/CoursePreviewPage.jsx";
+import PaymentPage from "./pages/public/courses/PaymentPage.jsx";
 
 
 function App() {
@@ -32,6 +33,7 @@ function App() {
                         <Route path="/admin/tags" element={<TagManagement />} />
                         <Route path="/courses" element={<CoursesPage />} />
                         <Route path="/courses/:id/preview" element={<CoursePreviewPage />} />
+                        <Route path="/courses/:id/payment" element={<PaymentPage />} />
                         <Route path="/register" element={<RegisterPage/>}/>
                         <Route path="/login" element={<LoginPage />} />
                     </Routes>
