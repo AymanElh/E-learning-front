@@ -16,7 +16,7 @@ export const tokenService = {
 
         try {
             const {exp} = jwtDecode(token);
-            console.log(exp);
+            // console.log(exp);
             if(!exp) return false;
 
             const now = Date.now() / 1000;

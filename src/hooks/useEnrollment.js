@@ -28,10 +28,9 @@ export const useEnrollment = function (courseId) {
                 setError(null);
 
                 const response = await api.get(`/courses/${courseId}/enrollment-status`);
-
                 if(response.status === 200) {
                     const data = response.data;
-                    setIsEnrolled(data.isEnrolled || false);
+                    setIsEnrolled(data.data.isEnrolled || false);
                 }
             } catch(err) {
                 console.error("Enrollment check error: ", err);

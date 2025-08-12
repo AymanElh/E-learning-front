@@ -1,4 +1,4 @@
-import {use, useEffect, useState} from "react";
+import {useEffect, useState} from "react";
 import {useParams, useNavigate} from "react-router-dom";
 import PublicLayout from "../../../components/layout/public/PublicLayout.jsx";
 import {courseService} from "../../../services/courseService.js";
@@ -10,7 +10,6 @@ import {
     PlayIcon,
     CheckCircleIcon,
     UserIcon,
-    CalendarIcon,
     TagIcon,
     GlobeIcon,
     AwardIcon,
@@ -32,7 +31,7 @@ function CoursePreviewPage() {
     const {isAuthenticated, user} = useAuth();
     const {isEnrolled, loading: enrollmentCheckLoading, enrollInCourse, error: enrollmentError} = useEnrollment(id);
 
-    console.log(id);
+    // console.log(isEnrolled, error);
 
 
     useEffect(() => {
@@ -54,25 +53,27 @@ function CoursePreviewPage() {
         setCourseLoading(false);
     }
 
-    async function checkEnrollmentStatus() {
-
-    }
 
     async function handleEnroll() {
-        if(!isAuthenticated()) {
+        if (!isAuthenticated()) {
             setError("Please login to enroll this course");
             navigate('/login');
+            return;
+        }
+
+        if (isEnrolled) {
+            alert("You are already enroll this course");
             return;
         }
 
         try {
             setEnrollmentLoading(true);
 
-            if(course.is_free) {
+            if (course.is_free) {
                 await enrollInCourse(id, true);
                 alert("Successfully enrolled this course");
             } else {
-                navigate(`/payment/${id}`, {
+                navigate(`/courses/${id}/payment`, {
                     state: {
                         courseName: course.title,
                         price: course.price,
@@ -80,7 +81,7 @@ function CoursePreviewPage() {
                     }
                 })
             }
-        } catch(err) {
+        } catch (err) {
             console.error("Enrollment error: ", err);
             setError(err.message || "Failed to enroll this course");
         } finally {
@@ -234,13 +235,74 @@ function CoursePreviewPage() {
                                 </div>
 
                                 {/* Enroll Button */}
-                                <button
-                                    onClick={handleEnroll}
-                                    disabled={enrollmentLoading}
-                                    className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-gray-400 text-white font-semibold py-3 px-6 rounded-lg transition mb-4"
-                                >
-                                    {enrollmentLoading ? 'Enrolling...' : 'Enroll Now'}
-                                </button>
+                                <div className="space-y-4">
+                                    {enrollmentCheckLoading ? (
+                                        <button
+                                            disabled
+                                            className="w-full bg-gray-400 text-white font-semibold py-3 px-6 rounded-lg transition flex items-center justify-center gap-2"
+                                        >
+                                            <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
+                                            Checking enrollment...
+                                        </button>
+                                    ) : isEnrolled ? (
+                                        <div className="space-y-3">
+                                            {/* Enrolled Status */}
+                                            <div className="w-full bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-700 rounded-lg p-4">
+                                                <div className="flex items-center justify-center gap-2 text-green-700 dark:text-green-300">
+                                                    <CheckCircleIcon className="w-5 h-5"/>
+                                                    <span className="font-semibold">You're enrolled in this course</span>
+                                                </div>
+                                            </div>
+
+                                            {/* Continue Learning Button */}
+                                            <button
+                                                onClick={() => navigate(`/courses/${id}/learn`)}
+                                                className="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-6 rounded-lg transition flex items-center justify-center gap-2"
+                                            >
+                                                <PlayIcon className="w-4 h-4"/>
+                                                Continue Learning
+                                            </button>
+                                        </div>
+                                    ) : (
+                                        <button
+                                            onClick={handleEnroll}
+                                            disabled={enrollmentLoading}
+                                            className={`w-full font-semibold py-3 px-6 rounded-lg transition flex items-center justify-center gap-2 ${
+                                                enrollmentLoading
+                                                    ? 'bg-gray-400 cursor-not-allowed text-white'
+                                                    : course.is_free
+                                                        ? 'bg-green-600 hover:bg-green-700 text-white'
+                                                        : 'bg-blue-600 hover:bg-blue-700 text-white'
+                                            }`}
+                                        >
+                                            {enrollmentLoading ? (
+                                                <>
+                                                    <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
+                                                    Enrolling...
+                                                </>
+                                            ) : course.is_free ? (
+                                                <>
+                                                    <BookOpenIcon className="w-4 h-4"/>
+                                                    Enroll Free
+                                                </>
+                                            ) : (
+                                                <>
+                                                    <AwardIcon className="w-4 h-4"/>
+                                                    Enroll for ${course.price}
+                                                </>
+                                            )}
+                                        </button>
+                                    )}
+
+                                    {/* Error Message */}
+                                    {enrollmentError && (
+                                        <div className="w-full bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-700 rounded-lg p-3">
+                                            <p className="text-red-700 dark:text-red-300 text-sm text-center">
+                                                {enrollmentError}
+                                            </p>
+                                        </div>
+                                    )}
+                                </div>
 
                                 {/* Course Features */}
                                 <div className="space-y-3 text-sm text-gray-600 dark:text-gray-300">

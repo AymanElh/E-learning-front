@@ -1,4 +1,5 @@
 import {BookOpenIcon, ClockIcon, StarIcon, UsersIcon} from "lucide-react";
+import {Link} from "react-router-dom";
 
 function CourseCard({course}) {
     return (
@@ -47,13 +48,14 @@ function CourseCard({course}) {
                 <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
                       <span className="text-2xl font-bold text-gray-900 dark:text-white">
-                        {course.isFree ?  "Free" : `$${course.price}`}
+                        {course.is_free ?  "Free" : `$${course.price}`}
                       </span>
                     </div>
-                    <button
+                    <Link
+                        to={`/courses/${course.id}/preview`}
                         className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition">
                         Enroll Now
-                    </button>
+                    </Link>
                 </div>
             </div>
         </div>
