@@ -115,7 +115,8 @@ export const courseService = {
     },
     getOpenCourses: async function() {
         try {
-            const response = await api.get('/courses/open');
+            const response = await api.get('/public/courses');
+            console.log(response);
             if(response.status === 200) {
                 return response.data;
             } else {
@@ -124,6 +125,19 @@ export const courseService = {
         } catch (err) {
             console.error("Error fetching the open courses", err);
             return {success: false, message: "Failed to retrieve open courses"};
+        }
+    },
+    getPublicCourse: async function(courseId) {
+        try {
+            const response = await api.get(`/public/courses/${courseId}`);
+            if(response.status === 200) {
+                return response.data;
+            } else {
+                return {success: false, message: `Unexpected status code:${response.status}`}
+            }
+        }
+        catch (err) {
+            return {success: false, message: err?.response?.data?.message};
         }
     }
 }

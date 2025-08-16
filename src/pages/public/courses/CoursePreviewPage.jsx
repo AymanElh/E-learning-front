@@ -27,24 +27,23 @@ function CoursePreviewPage() {
     const [enrollmentLoading, setEnrollmentLoading] = useState(false);
     const [error, setError] = useState("");
 
+    const {isAuthenticated, user, loading: authLoading} = useAuth();
 
-    const {isAuthenticated, user} = useAuth();
+    // Always call useEnrollment hook - it will handle authentication internally
     const {isEnrolled, loading: enrollmentCheckLoading, enrollInCourse, error: enrollmentError} = useEnrollment(id);
-
-    // console.log(isEnrolled, error);
-
 
     useEffect(() => {
         if (id) {
             fetchCourse();
         }
-    }, [id]);
+    }, [id]); // fetchCourse is stable and doesn't need to be in dependencies
 
-    async function fetchCourse() {
+    console.log(course);
+    const fetchCourse = async () => {
         setCourseLoading(true);
         setError("");
 
-        const result = await courseService.getCourseById(id);
+        const result = await courseService.getPublicCourse(id);
         if (result.success) {
             setCourse(result.data);
         } else {
@@ -53,25 +52,35 @@ function CoursePreviewPage() {
         setCourseLoading(false);
     }
 
-
     async function handleEnroll() {
         if (!isAuthenticated()) {
-            setError("Please login to enroll this course");
-            navigate('/login');
+            // Show a more user-friendly message before redirecting
+            const shouldLogin = window.confirm(
+                "You need to be logged in to enroll in this course. Would you like to go to the login page?"
+            );
+
+            if (shouldLogin) {
+                navigate('/login', {
+                    state: {
+                        from: `/courses/${id}/preview`,
+                        message: "Please log in to enroll in this course"
+                    }
+                });
+            }
             return;
         }
 
         if (isEnrolled) {
-            alert("You are already enroll this course");
+            alert("You are already enrolled in this course");
             return;
         }
 
         try {
             setEnrollmentLoading(true);
 
-            if (course.is_free) {
-                await enrollInCourse(id, true);
-                alert("Successfully enrolled this course");
+            if (course.isFree) {
+                await enrollInCourse(id);
+                alert("Successfully enrolled in this course");
             } else {
                 navigate(`/courses/${id}/payment`, {
                     state: {
@@ -83,7 +92,7 @@ function CoursePreviewPage() {
             }
         } catch (err) {
             console.error("Enrollment error: ", err);
-            setError(err.message || "Failed to enroll this course");
+            setError(err.message || "Failed to enroll in this course");
         } finally {
             setEnrollmentLoading(false);
         }
@@ -93,7 +102,8 @@ function CoursePreviewPage() {
         navigate(-1);
     }
 
-    if (courseLoading) {
+    // Show loading if auth is still loading or course is loading
+    if (authLoading || courseLoading) {
         return (
             <PublicLayout>
                 <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center">
@@ -280,7 +290,7 @@ function CoursePreviewPage() {
                                                     <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
                                                     Enrolling...
                                                 </>
-                                            ) : course.is_free ? (
+                                            ) : course.isFree ? (
                                                 <>
                                                     <BookOpenIcon className="w-4 h-4"/>
                                                     Enroll Free
@@ -374,7 +384,7 @@ function CoursePreviewPage() {
                                 <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-6">
                                     <div className="flex items-center justify-between mb-4">
                                         <span className="text-gray-600 dark:text-gray-300">
-                                            {course.sections.length || 0} sections • {course.lecturesCount || 0} lectures • {course.duration}
+                                            {course.sections?.length || 0} sections • {course.lecturesCount || 0} lectures • {course.duration}
                                         </span>
                                     </div>
 

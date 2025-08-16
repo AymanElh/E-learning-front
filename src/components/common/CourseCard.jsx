@@ -48,7 +48,7 @@ function CourseCard({course}) {
                 <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
                       <span className="text-2xl font-bold text-gray-900 dark:text-white">
-                        {course.is_free ?  "Free" : `$${course.price}`}
+                        {course.isFree ?  "Free" : `$${course.price}`}
                       </span>
                     </div>
                     <Link
