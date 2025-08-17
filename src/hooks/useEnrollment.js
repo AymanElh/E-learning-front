@@ -1,4 +1,4 @@
-import {useEffect, useState} from "react";
+import {useEffect, useState, useCallback} from "react";
 import {useAuth} from "../contexts/AuthContext.jsx";
 import api from '../services/api.js'
 
@@ -8,60 +8,78 @@ export const useEnrollment = function (courseId) {
     const [error, setError] = useState(null);
     const {token, isAuthenticated, loading: authLoading} = useAuth();
 
-    useEffect(() => {
-        const checkEnrollment = async function () {
-            if(authLoading) {
-                return;
-            }
+    const parseEnrollment = (payload) => {
+        // Support multiple API shapes: boolean, {is_enrolled}, {isEnrolled}, {data:{...}}
+        if (typeof payload === 'boolean') return payload;
+        if (payload && typeof payload.is_enrolled === 'boolean') return payload.is_enrolled;
+        if (payload && typeof payload.isEnrolled === 'boolean') return payload.isEnrolled;
+        if (payload && payload.data) {
+            const d = payload.data;
+            if (typeof d === 'boolean') return d;
+            if (typeof d.is_enrolled === 'boolean') return d.is_enrolled;
+            if (typeof d.isEnrolled === 'boolean') return d.isEnrolled;
+        }
+        return false;
+    }
 
-            if(!isAuthenticated()) {
-                setIsEnrolled(false);
-                setLoading(false);
-                setError(null);
-                return;
-            }
-
-            if(!courseId) {
-                setLoading(false);
-                return;
-            }
-
-            try {
-                setLoading(true);
-                setError(null);
-
-                const response = await api.get(`/courses/${courseId}/enrollment-status`);
-                if(response.status === 200) {
-                    const data = response.data;
-                    setIsEnrolled(data.is_enrolled || false);
-                }
-            }
-            catch (err) {
-                console.error("Enrollment check error: ", err);
-                setError(err?.response?.data?.message || "Failed to check enrollment status");
-                setIsEnrolled(false);
-            } finally {
-                setLoading(false);
-            }
+    const checkEnrollment = useCallback(async () => {
+        if (authLoading) {
+            // wait for auth to resolve
+            return;
         }
 
+        if (!isAuthenticated()) {
+            setIsEnrolled(false);
+            setLoading(false);
+            setError(null);
+            return;
+        }
+
+        if (!courseId) {
+            setLoading(false);
+            return;
+        }
+
+        try {
+            setLoading(true);
+            setError(null);
+
+            const response = await api.get(`/courses/${courseId}/enrollment-status`);
+            if (response.status === 200) {
+                const enrolled = parseEnrollment(response.data);
+                setIsEnrolled(!!enrolled);
+            } else {
+                setIsEnrolled(false);
+            }
+        }
+        catch (err) {
+            console.error("Enrollment check error: ", err);
+            setError(err?.response?.data?.message || "Failed to check enrollment status");
+            setIsEnrolled(false);
+        } finally {
+            setLoading(false);
+        }
+    }, [authLoading, courseId, isAuthenticated, token]);
+
+    useEffect(() => {
         checkEnrollment();
-    }, [courseId, token, isAuthenticated, authLoading]);
+    }, [checkEnrollment]);
 
     async function enrollInCourse(courseId) {
-        if(!isAuthenticated()) {
+        if (!isAuthenticated()) {
             throw new Error("Please login to enroll this course");
         }
 
         try {
             const response = await api.post(`/courses/${courseId}/enroll`)
 
-            if(response.status === 200) {
-                const data = response.data;
+            if (response.status === 200) {
+                // Optimistically set enrolled. We also allow consumers to refetch if needed.
                 setIsEnrolled(true);
-                return data;
+                return response.data;
             }
 
+            throw new Error('Enrollment failed');
         } catch(err) {
             console.error("Enrollment error: ", err);
             const errorMessage = err.response?.data?.message || 'Enrollment failed';
@@ -74,5 +92,6 @@ export const useEnrollment = function (courseId) {
         loading,
         error,
         enrollInCourse,
+        refetch: checkEnrollment,
     }
 }

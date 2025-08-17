@@ -27,30 +27,33 @@ function CoursePreviewPage() {
     const [enrollmentLoading, setEnrollmentLoading] = useState(false);
     const [error, setError] = useState("");
 
-    const {isAuthenticated, user, loading: authLoading} = useAuth();
+    const {isAuthenticated, loading: authLoading} = useAuth();
 
     // Always call useEnrollment hook - it will handle authentication internally
-    const {isEnrolled, loading: enrollmentCheckLoading, enrollInCourse, error: enrollmentError} = useEnrollment(id);
+    const {isEnrolled, loading: enrollmentCheckLoading, enrollInCourse, error: enrollmentError, refetch} = useEnrollment(id);
 
     useEffect(() => {
-        if (id) {
-            fetchCourse();
-        }
-    }, [id]); // fetchCourse is stable and doesn't need to be in dependencies
+        if (!id) return;
+        let isMounted = true;
 
-    console.log(course);
-    const fetchCourse = async () => {
-        setCourseLoading(true);
-        setError("");
+        const fetch = async () => {
+            setCourseLoading(true);
+            setError("");
 
-        const result = await courseService.getPublicCourse(id);
-        if (result.success) {
-            setCourse(result.data);
-        } else {
-            setError(result.message);
-        }
-        setCourseLoading(false);
-    }
+            const result = await courseService.getPublicCourse(id);
+            if (!isMounted) return;
+
+            if (result.success) {
+                setCourse(result.data);
+            } else {
+                setError(result.message);
+            }
+            setCourseLoading(false);
+        };
+
+        fetch();
+        return () => { isMounted = false };
+    }, [id]);
 
     async function handleEnroll() {
         if (!isAuthenticated()) {
@@ -78,8 +81,10 @@ function CoursePreviewPage() {
         try {
             setEnrollmentLoading(true);
 
-            if (course.isFree) {
+            if (course.isFree || course.price === 0) {
                 await enrollInCourse(id);
+                // ensure UI reflects enrolled state
+                refetch?.();
                 alert("Successfully enrolled in this course");
             } else {
                 navigate(`/courses/${id}/payment`, {
@@ -280,7 +285,7 @@ function CoursePreviewPage() {
                                             className={`w-full font-semibold py-3 px-6 rounded-lg transition flex items-center justify-center gap-2 ${
                                                 enrollmentLoading
                                                     ? 'bg-gray-400 cursor-not-allowed text-white'
-                                                    : course.is_free
+                                                    : (course.isFree || course.price === 0)
                                                         ? 'bg-green-600 hover:bg-green-700 text-white'
                                                         : 'bg-blue-600 hover:bg-blue-700 text-white'
                                             }`}
@@ -290,7 +295,7 @@ function CoursePreviewPage() {
                                                     <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
                                                     Enrolling...
                                                 </>
-                                            ) : course.isFree ? (
+                                            ) : (course.isFree || course.price === 0) ? (
                                                 <>
                                                     <BookOpenIcon className="w-4 h-4"/>
                                                     Enroll Free
