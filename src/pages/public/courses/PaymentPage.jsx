@@ -21,18 +21,17 @@ function PaymentPage() {
     const loadCourse = async () => {
         try {
             setPaymentStep('loading');
-            // Replace this with your actual course service call
-            const response = await courseService.getCourseById(id);
-            // console.log(response)
+            // Use public endpoint so the checkout works for any visitor context
+            const response = await courseService.getPublicCourse(id);
             if (response.success) {
                 setCourse(response.data);
                 setPaymentStep('details');
             } else {
-                throw new Error(response.message);
+                throw new Error(response.message || 'Course not found');
             }
         } catch (err) {
             console.error("Error load the course: ", err);
-            setError('Failed to load course details');
+            setError(err?.message || 'Failed to load course details');
             setPaymentStep('error');
         }
     }
@@ -52,7 +51,7 @@ function PaymentPage() {
     }
 
     function handleGoToCourse() {
-        navigate(`/courses/${courseId}`);
+        navigate(`/courses/${id}/preview`);
     }
 
     if (paymentStep === 'loading') {
@@ -184,13 +183,13 @@ function PaymentPage() {
                             <div className="text-center py-12">
                                 <XCircle className="w-20 h-20 text-red-500 mx-auto mb-6"/>
                                 <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">
-                                    {error.includes('course') ? 'Course Not Found' : 'Payment Failed'}
+                                    {String(error).toLowerCase().includes('course') ? 'Course Not Found' : 'Payment Failed'}
                                 </h3>
                                 <p className="text-red-600 dark:text-red-400 mb-6">
                                     {error}
                                 </p>
                                 <div className="space-y-3">
-                                    {!error.includes('course') && (
+                                    {!String(error).toLowerCase().includes('course') && (
                                         <button
                                             onClick={() => {
                                                 setPaymentStep('details');

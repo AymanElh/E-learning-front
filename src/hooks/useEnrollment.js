@@ -71,8 +71,8 @@ export const useEnrollment = function (courseId) {
         }
 
         try {
+            console.log(courseId);
             const response = await api.post(`/courses/${courseId}/enroll`)
-
             if (response.status === 200) {
                 // Optimistically set enrolled. We also allow consumers to refetch if needed.
                 setIsEnrolled(true);

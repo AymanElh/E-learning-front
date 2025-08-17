@@ -30,7 +30,13 @@ function CoursePreviewPage() {
     const {isAuthenticated, loading: authLoading} = useAuth();
 
     // Always call useEnrollment hook - it will handle authentication internally
-    const {isEnrolled, loading: enrollmentCheckLoading, enrollInCourse, error: enrollmentError, refetch} = useEnrollment(id);
+    const {
+        isEnrolled,
+        loading: enrollmentCheckLoading,
+        enrollInCourse,
+        error: enrollmentError,
+        refetch
+    } = useEnrollment(id);
 
     useEffect(() => {
         if (!id) return;
@@ -52,7 +58,9 @@ function CoursePreviewPage() {
         };
 
         fetch();
-        return () => { isMounted = false };
+        return () => {
+            isMounted = false
+        };
     }, [id]);
 
     async function handleEnroll() {
@@ -256,16 +264,20 @@ function CoursePreviewPage() {
                                             disabled
                                             className="w-full bg-gray-400 text-white font-semibold py-3 px-6 rounded-lg transition flex items-center justify-center gap-2"
                                         >
-                                            <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
+                                            <div
+                                                className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
                                             Checking enrollment...
                                         </button>
                                     ) : isEnrolled ? (
                                         <div className="space-y-3">
                                             {/* Enrolled Status */}
-                                            <div className="w-full bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-700 rounded-lg p-4">
-                                                <div className="flex items-center justify-center gap-2 text-green-700 dark:text-green-300">
+                                            <div
+                                                className="w-full bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-700 rounded-lg p-4">
+                                                <div
+                                                    className="flex items-center justify-center gap-2 text-green-700 dark:text-green-300">
                                                     <CheckCircleIcon className="w-5 h-5"/>
-                                                    <span className="font-semibold">You're enrolled in this course</span>
+                                                    <span
+                                                        className="font-semibold">You're enrolled in this course</span>
                                                 </div>
                                             </div>
 
@@ -292,7 +304,8 @@ function CoursePreviewPage() {
                                         >
                                             {enrollmentLoading ? (
                                                 <>
-                                                    <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
+                                                    <div
+                                                        className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
                                                     Enrolling...
                                                 </>
                                             ) : (course.isFree || course.price === 0) ? (
@@ -311,7 +324,8 @@ function CoursePreviewPage() {
 
                                     {/* Error Message */}
                                     {enrollmentError && (
-                                        <div className="w-full bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-700 rounded-lg p-3">
+                                        <div
+                                            className="w-full bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-700 rounded-lg p-3">
                                             <p className="text-red-700 dark:text-red-300 text-sm text-center">
                                                 {enrollmentError}
                                             </p>
